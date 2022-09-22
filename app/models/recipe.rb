@@ -16,8 +16,8 @@ class Recipe < ApplicationRecord
   # Associations
 
   # Query Scopes
-  scope :short_to_make, -> { makeable_in_under(30) }
+  scope :short_to_make, -> { makeable_in_at_most(30) }
   scope :long_to_make, -> { makeable_in_at_least(30) }
-  scope :makeable_in_under, ->(duration) { where("duration_in_minutes <= ? ", duration)}
+  scope :makeable_in_at_most, ->(duration) { where("duration_in_minutes <= ? ", duration)}
   scope :makeable_in_at_least, ->(duration) { where("duration_in_minutes >= ?", duration)}
 end
