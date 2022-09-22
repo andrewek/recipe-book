@@ -7,6 +7,6 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-# name
 class Category < ApplicationRecord
+  validates :name, length: { minimum: 2 }
 end
