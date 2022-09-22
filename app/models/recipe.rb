@@ -7,6 +7,11 @@
 #  name                :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  category_id         :bigint
+#
+# Indexes
+#
+#  index_recipes_on_category_id  (category_id)
 #
 class Recipe < ApplicationRecord
   # Validations
@@ -14,6 +19,7 @@ class Recipe < ApplicationRecord
   validates :duration_in_minutes, presence: true, numericality: { greater_than: 0 }
 
   # Associations
+  belongs_to :category
 
   # Query Scopes
   scope :short_to_make, -> { makeable_in_at_most(30) }
