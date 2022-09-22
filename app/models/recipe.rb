@@ -26,4 +26,5 @@ class Recipe < ApplicationRecord
   scope :long_to_make, -> { makeable_in_at_least(30) }
   scope :makeable_in_at_most, ->(duration) { where("duration_in_minutes <= ? ", duration)}
   scope :makeable_in_at_least, ->(duration) { where("duration_in_minutes >= ?", duration)}
+  scope :name_is_like, ->(token) { where("name ilike ?", "%#{token}%") }
 end

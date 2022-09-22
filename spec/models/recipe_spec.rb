@@ -97,4 +97,18 @@ RSpec.describe Recipe, type: :model do
       expect(result).to include(r_3)
     end
   end
+
+  describe "#name_is_like" do
+    it "finds things" do
+      r_1 = Recipe.create!(name: "fruit salad", duration_in_minutes: 29, category: category)
+      r_2 = Recipe.create!(name: "SaLaD dressing", duration_in_minutes: 30, category: category)
+      r_3 = Recipe.create!(name: "aaaaaaargh", duration_in_minutes: 31, category: category)
+
+      result = Recipe.name_is_like("salad")
+
+      expect(result).to include(r_1)
+      expect(result).to include(r_2)
+      expect(result).not_to include(r_3)
+    end
+  end
 end
