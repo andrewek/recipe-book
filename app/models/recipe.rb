@@ -1,8 +1,13 @@
-# name
-# id
-# duration_in_minutes
-# created_at
-# updated_at
+# == Schema Information
+#
+# Table name: recipes
+#
+#  id                  :bigint           not null, primary key
+#  duration_in_minutes :integer          default(30), not null
+#  name                :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
 class Recipe < ApplicationRecord
   # Validations
   validates :name, length: { minimum: 2 }
