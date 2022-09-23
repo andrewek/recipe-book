@@ -113,4 +113,29 @@ RSpec.describe Recipe, type: :model do
       expect(result).not_to include(r_3)
     end
   end
+
+  describe "#oldest" do
+    it "finds the oldest recipe" do
+      r_1 = Recipe.create!(name: "Chicken Sandwich", author: author, duration_in_minutes: 20, category: category)
+      r_2 = Recipe.create!(name: "Spaghetti", author: author, duration_in_minutes: 45, category: category, created_at: 1.month.ago)
+      r_3 = Recipe.create!(name: "Pot Roast", author: author, duration_in_minutes: 100, category: category, created_at: 2.days.ago)
+
+      result = Recipe.oldest
+
+      expect(result).to eq r_2
+    end
+  end
+
+  describe "#newest" do
+    it "finds the newest recipe" do
+      r_1 = Recipe.create!(name: "Chicken Sandwich", author: author, duration_in_minutes: 20, category: category)
+      r_2 = Recipe.create!(name: "Spaghetti", author: author, duration_in_minutes: 45, category: category, created_at: 1.month.ago)
+      r_3 = Recipe.create!(name: "Pot Roast", author: author, duration_in_minutes: 100, category: category, created_at: 2.days.ago)
+
+      result = Recipe.newest
+
+      expect(result).to eq r_1
+    end
+  end
+
 end
