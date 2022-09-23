@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_22_205719) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_23_163501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -26,6 +32,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_22_205719) do
     t.datetime "updated_at", null: false
     t.integer "duration_in_minutes", default: 30, null: false
     t.bigint "category_id"
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_recipes_on_author_id"
     t.index ["category_id"], name: "index_recipes_on_category_id"
   end
 
