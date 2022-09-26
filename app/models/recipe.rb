@@ -21,8 +21,9 @@ class Recipe < ApplicationRecord
   validates :duration_in_minutes, presence: true, numericality: { greater_than: 0 }
 
   # Associations
-  belongs_to :category
   belongs_to :author
+  belongs_to :category
+  has_many :reviews
 
   # Query Scopes
   scope :short_to_make, -> { makeable_in_at_most(30) }
