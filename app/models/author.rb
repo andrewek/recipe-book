@@ -15,17 +15,20 @@ class Author < ApplicationRecord
 
   # Associations
   has_many :recipes
-  # TODO --> has_many :reviews
+  has_many :reviews
 
   # Query Scope
   scope :search_all_authors, -> (token) { where("name ilike ?", "%#{token}%") }
-  
-  def oldest_recipe
-    recipes.oldest
+
+  def average_given_rating
+    reviews.average(:rating)
   end
 
   def newest_recipe
     recipes.newest
   end
-
+  
+  def oldest_recipe
+    recipes.oldest
+  end
 end
