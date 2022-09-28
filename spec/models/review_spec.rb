@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: reviews
+#
+#  id         :bigint           not null, primary key
+#  body       :text             default("")
+#  rating     :integer          default(5), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  author_id  :bigint
+#  recipe_id  :bigint
+#
+# Indexes
+#
+#  index_reviews_on_author_id  (author_id)
+#  index_reviews_on_recipe_id  (recipe_id)
+#
 require "rails_helper"
 RSpec.describe Review, type: :model do
   let(:author) { Author.create!(name: "Taylor Swift") }
