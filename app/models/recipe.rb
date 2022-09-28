@@ -25,6 +25,7 @@ class Recipe < ApplicationRecord
   belongs_to :category
   
   has_many :reviews
+  has_and_belongs_to_many :tags
 
   # Query Scopes
   scope :short_to_make, -> { makeable_in_at_most(30) }
