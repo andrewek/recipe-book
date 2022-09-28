@@ -1,8 +1,7 @@
 class RecipesController < ApplicationController
   # GET /recipes
   def index
-    # TODO: Fetch actual recipes
-    render json: { data: Recipe.all }
+    ok(Recipe.all)
   end
 
   def show
@@ -11,7 +10,8 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find_by(id: id)
 
     if @recipe
-      render json: { data: @recipe }
+      ok(@recipe)
+      # render json: @recipe, each_serializer: RecipeSerializer
     else
       render json: { errors: ["That recipe does not exist"] }, status: :not_found
     end
@@ -21,11 +21,42 @@ class RecipesController < ApplicationController
     recipe = Recipe.new(recipe_params)
 
     if recipe.save
-      render json: { data: recipe }, status: :created
+      created(recipe)
     else
       render json: {errors: recipe.errors.full_messages}, status: :bad_request
     end
   end
+
+  def update
+    @recipe = Recipe.find_by(id: params[:id])
+
+    if @recipe
+      if @recipe.update(recipe_params)
+        ok(@recipe)
+      else
+        render json: {errors: recipe.errors.full_messages}, status: :bad_request
+      end
+    else
+      render json: { errors: ["Cannot update, recipe does not exist"] }, status: :not_found
+    end
+  end
+
+  def destroy
+    @recipe = Recipe.find_by(id: params[:id])
+
+    if @recipe
+      if @recipe.destroy
+        deleted(@recipe)
+        #render json: { data: @recipe, message: "Deletion successful." }, status: 200
+      else
+        render json: {errors: recipe.errors.full_messages}, status: :bad_request
+      end
+    else
+      render json: { errors: ["Cannot delete, recipe does not exist"] }, status: :not_found
+    end
+  end
+
+  private
 
   def recipe_params
     params.require(:recipe).permit(:name, :author_id, :category_id, :duration_in_minutes)
