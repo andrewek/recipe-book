@@ -1,7 +1,9 @@
 class RecipesController < ApplicationController
   # GET /recipes
   def index
-    ok(Recipe.all)
+    recipes = RecipesSearch.new(params.to_unsafe_h).call
+
+    ok(recipes)
   end
 
   def show

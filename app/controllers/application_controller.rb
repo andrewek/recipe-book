@@ -17,11 +17,17 @@ class ApplicationController < ActionController::Base
   private
 
   def render_json(record, status: :ok)
+    puts "#################################"
+    puts record.inspect
+    puts "##################################"
+
     # Do we have one element, or many?
-    if record.is_a?(ActiveRecord::Relation)
-      render json: record, each_serializer: serializer_for(record.first), status: status
-    else
+    if !record.is_a?(ActiveRecord::Relation)
       render json: record, each_serializer: serializer_for(record), status: status
+    elsif record.empty?
+      render json: record, status: status
+    else
+      render json: record, each_serializer: serializer_for(record.first), status: status
     end
   end
 
