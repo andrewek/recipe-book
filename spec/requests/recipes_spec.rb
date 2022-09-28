@@ -18,13 +18,12 @@ RSpec.describe "Recipes", type: :request do
       get "/recipes/#{id}"
 
       expect(response.status).to eq(200)
-      parsed_body = JSON.parse(response.body, symbolize_names: true)
-      data = parsed_body[:data]
+      data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:name]).to eq(recipe.name)
       expect(data[:duration_in_minutes]).to eq(recipe.duration_in_minutes)
-      expect(data[:category_id]).to eq(recipe.category_id)
-      expect(data[:author_id]).to eq(recipe.author_id)
+      expect(data[:category]).to eq(category.name)
+      expect(data[:author]).to eq(author.name)
     end
 
     it "returns 404" do
@@ -42,16 +41,15 @@ RSpec.describe "Recipes", type: :request do
 
       get "/recipes"
       expect(response.content_type).to include("application/json")
-      parsed_body = JSON.parse(response.body, symbolize_names: true)
-      data = parsed_body[:data]
+      data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data.length).to eq(1)
       item = data.first
       
       expect(item[:name]).to eq(recipe.name)
       expect(item[:duration_in_minutes]).to eq(recipe.duration_in_minutes)
-      expect(item[:category_id]).to eq(recipe.category_id)
-      expect(item[:author_id]).to eq(recipe.author_id)
+      expect(item[:category]).to eq(category.name)
+      expect(item[:author]).to eq(author.name)
     end
   end
 
@@ -68,11 +66,11 @@ RSpec.describe "Recipes", type: :request do
 
       expect(response).to be_successful
       
-      body = JSON.parse(response.body, symbolize_names: true)[:data]
+      body = JSON.parse(response.body, symbolize_names: true)
 
       expect(body[:name]).to eq("Baba Ganoush")
-      expect(body[:author_id]).to eq(author.id)
-      expect(body[:category_id]).to eq(category.id)
+      expect(body[:author]).to eq(author.name)
+      expect(body[:category]).to eq(category.name)
       expect(body[:duration_in_minutes]).to eq(90)
 
       id = body[:id]
@@ -92,6 +90,68 @@ RSpec.describe "Recipes", type: :request do
       errors = parsed_body[:errors]
 
       expect(errors).to include("Name is too short (minimum is 2 characters)")
+    end
+  end
+
+  describe "PATCH /recipes/:id" do
+    it "does not update nonexistent id" do
+      id = 200
+
+      put "/recipes/#{id}", params: {
+        recipe: {
+          name: "Gourmet Chicken Nuggets", 
+          author_id: author.id, 
+          category_id: category.id, 
+          duration_in_minutes: 240
+        } 
+      }
+
+      expect(response.status).to eq(404)
+    end
+    
+    it "updates valid params" do
+      id = recipe.id
+      
+      patch "/recipes/#{id}", params: {
+        recipe: {
+          name: "Gourmet Chicken Nuggets", 
+          taste: "good",
+          author_id: author.id, 
+          category_id: category.id, 
+          duration_in_minutes: 240
+        } 
+      }
+
+      body = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.status).to eq(200)
+      expect(body[:name]).to eq("Gourmet Chicken Nuggets")
+      expect(body[:taste]).to eq(nil)
+      expect(body[:author]).to eq(author.name)
+      expect(body[:category]).to eq(category.name)
+      expect(body[:duration_in_minutes]).to eq(240)
+    end
+  end
+
+  describe "DESTROY /recipes/:id" do
+    it "deletes an existing recipe" do
+      id = recipe.id
+      
+      pre_count = Recipe.count
+
+      delete "/recipes/#{id}"
+
+      post_count = Recipe.count
+
+      expect(pre_count).to_not eq(post_count)
+      expect(response.status).to eq(200)
+
+      body = JSON.parse(response.body, symbolize_names: true)
+
+      expect(body[:name]).to eq(recipe.name)
+      expect(body[:duration_in_minutes]).to eq(recipe.duration_in_minutes)
+      expect(body[:category_id]).to eq(recipe.category_id)
+      expect(body[:author_id]).to eq(recipe.author_id)
     end
   end
 end

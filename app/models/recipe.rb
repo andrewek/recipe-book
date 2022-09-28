@@ -15,6 +15,7 @@
 #  index_recipes_on_author_id    (author_id)
 #  index_recipes_on_category_id  (category_id)
 #
+
 class Recipe < ApplicationRecord
   # Validations
   validates :name, length: { minimum: 2 }
