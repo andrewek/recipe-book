@@ -11,15 +11,12 @@ class ApplicationController < ActionController::Base
   end
 
   def deleted(record)
-    render json: record, each_serializer: serializer_for(record), message: "Deletion successful.", status: :ok
+    render_json(record, status: :ok)
   end
 
   private
 
   def render_json(record, status: :ok)
-    puts "#################################"
-    puts record.inspect
-    puts "##################################"
 
     # Do we have one element, or many?
     if !record.is_a?(ActiveRecord::Relation)
