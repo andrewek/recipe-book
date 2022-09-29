@@ -49,7 +49,7 @@ RSpec.describe "Authors", type: :request do
 
       expect(response).to be_successful
 
-      body = JSON.parse(response.body, symbolize_names: true)[:data]
+      body = JSON.parse(response.body, symbolize_names: true)
       expect(body[:name]).to eq("Chicken Little")
       expect(body[:age]).to eq(nil)
     end
@@ -88,7 +88,7 @@ RSpec.describe "Authors", type: :request do
         }
       }
 
-      body = JSON.parse(response.body, symbolize_names: true)[:data]
+      body = JSON.parse(response.body, symbolize_names: true)
 
       expect(response.status).to eq(200)
       expect(body[:name]).to eq("Tom Cruise")
@@ -106,7 +106,7 @@ RSpec.describe "Authors", type: :request do
       post_count = Author.count
       expect(pre_count).to_not eq(post_count)
 
-      body = JSON.parse(response.body, symbolize_names: true)[:data]
+      body = JSON.parse(response.body, symbolize_names: true)
 
       expect(response.status).to eq(200)
       expect(body[:name]).to eq(author.name)

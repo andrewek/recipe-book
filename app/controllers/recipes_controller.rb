@@ -13,7 +13,6 @@ class RecipesController < ApplicationController
 
     if @recipe
       ok(@recipe)
-      # render json: @recipe, each_serializer: RecipeSerializer
     else
       render json: { errors: ["That recipe does not exist"] }, status: :not_found
     end
