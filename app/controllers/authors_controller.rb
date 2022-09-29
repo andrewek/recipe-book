@@ -3,12 +3,12 @@ class AuthorsController < ApplicationController
 
   def index
     @authors = AuthorsSearch.new(params.to_unsafe_h).call
-    render json: @authors
+    ok(@authors)
   end
 
   def show
     if @author
-      render json: @author
+      ok(@author)
     else
       render json: { errors: ["That author does not exist."] }, status: :not_found
     end
@@ -18,23 +18,23 @@ class AuthorsController < ApplicationController
     @author = Author.new(author_params)
 
     if @author.save
-      render json: { data: @author }, status: :ok
+      created(@author)
     else
-      render json: { errors: author.errors.full_messages }, status: :bad_request
+      render json: { errors: @author.errors.full_messages }, status: :bad_request
     end
   end
 
   def update
     if @author && @author.update(author_params)
-      render json: { data: @author }, status: :ok
+      ok(@author)
     else
-      render json: { errors: author.errors.full_messages }, status: :bad_request
+      render json: { errors: ["Cannot update author."] }, status: :bad_request
     end
   end
 
   def destroy
     if @author && @author.destroy
-      render json: { data: @author, message: "Deletion successful." }, status: :ok
+      deleted(@author)
     else
       render json: { errors: ["Cannot delete, does not exist."] }, status: :bad_request
     end

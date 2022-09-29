@@ -9,10 +9,10 @@ RSpec.describe "Authors", type: :request do
 
       get "/authors"
       expect(response.content_type).to include("application/json")
-      data = JSON.parse(response.body, symbolize_names: true)
+      body = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data.length).to eq(1)
-      item = data.first
+      expect(body.length).to eq(1)
+      item = body.first
 
       expect(item[:name]).to eq(author.name)
     end
@@ -24,20 +24,93 @@ RSpec.describe "Authors", type: :request do
       get "/authors/#{id}"
 
       expect(response.status).to eq(200)
-      data = JSON.parse(response.body, symbolize_names: true)
+      body = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data[:name]).to eq(author.name)
+      expect(body[:name]).to eq(author.name)
     end
 
     it "returns 404" do
       get "/authors/0"
       expect(response.status).to eq(404)
 
-      data = JSON.parse(response.body, symbolize_names: true)
-      expect(data).to eq({ errors: ["That author does not exist."] })
+      body = JSON.parse(response.body, symbolize_names: true)
+      expect(body).to eq({ errors: ["That author does not exist."] })
+    end
+  end
+
+  describe "POST /authors" do
+    it "creates with valid params" do
+      post "/authors", params: {
+        author: {
+          name: "Chicken Little",
+          age: 18
+        }
+      }
+
+      expect(response).to be_successful
+
+      body = JSON.parse(response.body, symbolize_names: true)
+      expect(body[:name]).to eq("Chicken Little")
+      expect(body[:age]).to eq(nil)
     end
 
-    
+    it "fails with invalid params" do
+      pre_count = Author.count
+
+      post "/authors", params: { author: { name: "" } }
+
+      post_count = Author.count
+      expect(pre_count).to eq(post_count)
+
+      body = JSON.parse(response.body, symbolize_names: true)
+      errors = body[:errors]
+
+      expect(errors).to include("Name is too short (minimum is 2 characters)")
+    end
+  end
+
+  describe "PATCH /authors/:id" do
+    it "does not update nonexistent id" do
+      id = 0
+
+      put "/authors/#{id}", params: { author: { name: "Tom Cruise" } }
+
+      expect(response.status).to eq(400)
+    end
+
+    it "updates valid params" do
+      id = author.id
+
+      put "/authors/#{id}", params: {
+        author: {
+          name: "Tom Cruise",
+          age: "50"
+        }
+      }
+
+      body = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.status).to eq(200)
+      expect(body[:name]).to eq("Tom Cruise")
+      expect(body[:age]).to eq(nil)
+    end
+  end
+
+  describe "DESTROY /authors/:id" do
+    it "deletes an existing author" do
+      id = author.id
+      pre_count = Author.count
+
+      delete "/authors/#{id}"
+
+      post_count = Author.count
+      expect(pre_count).to_not eq(post_count)
+
+      body = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.status).to eq(200)
+      expect(body[:name]).to eq(author.name)
+    end
   end
 
 end

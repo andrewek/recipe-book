@@ -45,6 +45,6 @@ class AuthorsSearch
       query = query.joins(:recipes).where("duration_in_minutes <= ?", params.recipes_under).distinct
     end
 
-    query.all
+    query.includes(:reviews, :recipes).all
   end
 end
