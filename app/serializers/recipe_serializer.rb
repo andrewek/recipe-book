@@ -16,14 +16,9 @@
 #  index_recipes_on_category_id  (category_id)
 #
 class RecipeSerializer < ActiveModel::Serializer
-  attributes :id, :name, :duration_in_minutes, :author, :category
-  has_many :tags
-
-  def author
-    object&.author&.name
-  end
+  attributes :id, :name, :duration_in_minutes, :created_at, :updated_at
   
-  def category
-    object&.category&.name
-  end
+  has_many :tags
+  belongs_to :author
+  belongs_to :category
 end
