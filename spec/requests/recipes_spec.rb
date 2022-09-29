@@ -22,8 +22,8 @@ RSpec.describe "Recipes", type: :request do
 
       expect(data[:name]).to eq(recipe.name)
       expect(data[:duration_in_minutes]).to eq(recipe.duration_in_minutes)
-      expect(data[:category]).to eq(category.name)
-      expect(data[:author]).to eq(author.name)
+      expect(data[:category][:name]).to eq(category.name)
+      expect(data[:author][:name]).to eq(author.name)
     end
 
     it "returns 404" do
@@ -48,8 +48,8 @@ RSpec.describe "Recipes", type: :request do
       
       expect(item[:name]).to eq(recipe.name)
       expect(item[:duration_in_minutes]).to eq(recipe.duration_in_minutes)
-      expect(item[:category]).to eq(category.name)
-      expect(item[:author]).to eq(author.name)
+      expect(item[:category][:name]).to eq(category.name)
+      expect(item[:author][:name]).to eq(author.name)
     end
   end
 
@@ -69,8 +69,8 @@ RSpec.describe "Recipes", type: :request do
       body = JSON.parse(response.body, symbolize_names: true)
 
       expect(body[:name]).to eq("Baba Ganoush")
-      expect(body[:author]).to eq(author.name)
-      expect(body[:category]).to eq(category.name)
+      expect(body[:author][:name]).to eq(author.name)
+      expect(body[:category][:name]).to eq(category.name)
       expect(body[:duration_in_minutes]).to eq(90)
 
       id = body[:id]
@@ -127,8 +127,8 @@ RSpec.describe "Recipes", type: :request do
       expect(response.status).to eq(200)
       expect(body[:name]).to eq("Gourmet Chicken Nuggets")
       expect(body[:taste]).to eq(nil)
-      expect(body[:author]).to eq(author.name)
-      expect(body[:category]).to eq(category.name)
+      expect(body[:author][:name]).to eq(author.name)
+      expect(body[:category][:name]).to eq(category.name)
       expect(body[:duration_in_minutes]).to eq(240)
     end
   end
@@ -150,8 +150,8 @@ RSpec.describe "Recipes", type: :request do
 
       expect(body[:name]).to eq(recipe.name)
       expect(body[:duration_in_minutes]).to eq(recipe.duration_in_minutes)
-      expect(body[:category_id]).to eq(recipe.category_id)
-      expect(body[:author_id]).to eq(recipe.author_id)
+      expect(body[:category][:id]).to eq(category.id)
+      expect(body[:author][:id]).to eq(author.id)
     end
   end
 end
