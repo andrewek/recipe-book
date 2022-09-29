@@ -27,4 +27,6 @@ class Review < ApplicationRecord
   belongs_to :recipe
 
   # Query Scopes
+  scope :rating_is_at_least, -> (rating) { where("rating >= ? ", rating)}
+  scope :rating_is_at_most, -> (rating) { where("rating <= ? ", rating)}
 end
