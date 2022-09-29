@@ -20,7 +20,7 @@ class AuthorsController < ApplicationController
     if @author.save
       render json: { data: @author }, status: :ok
     else
-      render json: { errors: author.errors.full_messages }, status: :bad_request
+      render json: { errors: @author.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -28,7 +28,7 @@ class AuthorsController < ApplicationController
     if @author && @author.update(author_params)
       render json: { data: @author }, status: :ok
     else
-      render json: { errors: author.errors.full_messages }, status: :bad_request
+      render json: { errors: ["Cannot update author."] }, status: :bad_request
     end
   end
 
