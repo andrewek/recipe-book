@@ -21,7 +21,7 @@ class RecipesSearchParams
       author_id&.split(",")&.map { |id| id.strip.to_i } || []
     elsif author_id.is_a?(Array)
       author_id
-    elsif author_ids.is_a?(Numeric)
+    elsif author_id.is_a?(Numeric)
       author_id
     else
       []
