@@ -4,14 +4,23 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    field :recipe, RecipeType, "Find recipe by ID" do
+      argument :id, ID
+    end
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :recipes, [RecipeType], "All recipes" do
+      argument :name_like, String, required: false
+      argument :duration_under, Integer, required: false
+      argument :duration_over, Integer, required: false
+      argument :author_id, [Integer], required: false
+    end
+
+    def recipe(id:)
+      Recipe.find(id)
+    end
+
+    def recipes(**args)
+      RecipesSearch.new(args).call
     end
   end
 end
