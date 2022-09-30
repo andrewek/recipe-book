@@ -7,6 +7,9 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :joined_at, String
+    
+    field :recipes, [RecipeType]
+    field :reviews, [ReviewType]
 
     def joined_at
       object.created_at

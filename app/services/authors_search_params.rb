@@ -9,6 +9,8 @@ class AuthorsSearchParams
   validates :recipes_under, numericality: {greater_than: 0, only_integer: true, allow_nil: true}
 
   def initialize(args)
+    args = args.with_indifferent_access
+    
     @name_like = args["name_like"]
     @reviews_over = args["reviews_over"]
     @reviews_under = args["reviews_under"]

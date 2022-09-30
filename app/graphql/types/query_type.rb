@@ -4,23 +4,12 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
-    field :recipe, RecipeType, "Find recipe by ID" do
-      argument :id, ID
-    end
+    field :recipe, resolver: Resolvers::Recipes::Get
+    field :recipes, resolver: Resolvers::Recipes::All
+    
+    field :author, resolver: Resolvers::Authors::Get
+    field :authors, resolver: Resolvers::Authors::All
 
-    field :recipes, [RecipeType], "All recipes" do
-      argument :name_like, String, required: false
-      argument :duration_under, Integer, required: false
-      argument :duration_over, Integer, required: false
-      argument :author_id, [Integer], required: false
-    end
-
-    def recipe(id:)
-      Recipe.find(id)
-    end
-
-    def recipes(**args)
-      RecipesSearch.new(args).call
-    end
+    
   end
 end
