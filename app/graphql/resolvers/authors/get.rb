@@ -1,5 +1,5 @@
 class Resolvers::Authors::Get < Resolvers::BaseResolver
-  type Types::AuthorType, null: false
+  type Types::Authors::AuthorType, null: false
   description "Get one author by ID"
 
   argument :id, ID

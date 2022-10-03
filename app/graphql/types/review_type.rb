@@ -11,6 +11,6 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   
     field :recipe, Types::Recipes::RecipeType
-    field :author, AuthorType
+    field :author, Types::Authors::AuthorType
   end
 end

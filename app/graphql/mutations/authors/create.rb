@@ -1,7 +1,7 @@
 class Mutations::Authors::Create < Mutations::BaseMutation
-  argument :params, Types::AuthorInputType, required: true
+  argument :params, Types::Authors::AuthorInputType, required: true
 
-  field :author, Types::AuthorType
+  field :author, Types::Authors::AuthorType
 
   def resolve(params:)
     params = params.to_h

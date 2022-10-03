@@ -13,7 +13,7 @@ module Types
       field :category_id, Integer
       field :author_id, Integer
 
-      field :author, AuthorType
+      field :author, Types::Authors::AuthorType
       field :category, CategoryType
       field :reviews, [ReviewType]
     end
