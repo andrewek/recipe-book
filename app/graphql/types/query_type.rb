@@ -9,7 +9,5 @@ module Types
     
     field :author, resolver: Resolvers::Authors::Get
     field :authors, resolver: Resolvers::Authors::All
-
-    
   end
 end

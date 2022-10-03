@@ -19,7 +19,7 @@ class RecipesController < ApplicationController
   end
 
   def create
-    recipe = Recipe.new(recipe_params)
+    recipe = Recipe.new(create_params)
 
     if recipe.save
       created(recipe)
@@ -32,7 +32,7 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find_by(id: params[:id])
 
     if @recipe
-      if @recipe.update(recipe_params)
+      if @recipe.update(update_params)
         ok(@recipe)
       else
         render json: {errors: recipe.errors.full_messages}, status: :bad_request
@@ -59,7 +59,11 @@ class RecipesController < ApplicationController
 
   private
 
-  def recipe_params
+  def create_params
     params.require(:recipe).permit(:name, :author_id, :category_id, :duration_in_minutes)
+  end
+
+  def update_params
+    params.require(:recipe).permit(:name, :category_id, :duration_in_minutes)
   end
 end

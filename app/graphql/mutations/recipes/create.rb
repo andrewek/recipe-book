@@ -1,7 +1,7 @@
 class Mutations::Recipes::Create < Mutations::BaseMutation
-  argument :params, Types::RecipeInputType, required: true
+  argument :params, Types::Recipes::RecipeInputType, required: true
 
-  field :recipe, Types::RecipeType
+  field :recipe, Types::Recipes::RecipeType
 
   def resolve(params:)
     params = params.to_h

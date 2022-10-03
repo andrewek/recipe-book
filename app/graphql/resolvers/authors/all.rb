@@ -1,5 +1,5 @@
 class Resolvers::Authors::All < Resolvers::BaseResolver
-  type [Types::AuthorType], null: false
+  type [Types::Authors::AuthorType], null: false
   description "Get all authors"
 
   argument :name_like, String, required: false
