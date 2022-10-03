@@ -64,6 +64,9 @@ group :development do
   gem "annotate"
 
   gem "graphiql-rails"
+
+  gem "guard"
+  gem "guard-rspec"
 end
 
 group :test do
