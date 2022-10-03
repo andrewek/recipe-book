@@ -131,6 +131,20 @@ RSpec.describe "Recipes", type: :request do
       expect(body[:category][:name]).to eq(category.name)
       expect(body[:duration_in_minutes]).to eq(240)
     end
+
+    it "declines to update forbidden params" do
+      second_author = Author.create!(name: "Not the right one")
+
+      patch "/recipes/#{recipe.id}", params: {
+        recipe: { author_id: second_author.id } 
+      }
+      
+      body = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to be_successful
+      expect(body.dig(:author, :id)).to eq(author.id)
+      expect(body.dig(:author, :id)).not_to eq(second_author.id)
+    end
   end
 
   describe "DESTROY /recipes/:id" do
