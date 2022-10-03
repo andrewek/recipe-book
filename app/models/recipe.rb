@@ -25,7 +25,7 @@ class Recipe < ApplicationRecord
   belongs_to :author
   belongs_to :category
   
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :tags
 
   # Query Scopes

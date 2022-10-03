@@ -17,6 +17,16 @@ To run migrations - `bin/rails db:migrate`
 
 To reset the database - `bin/rails db:reset`
 
+## Guard
+
+You can run Guard, which runs tests upon every file-save.
+
+```sh
+bin/guard
+```
+
+Exit by typing "exit"
+
 ## GraphQL
 
 All of these are `POST localhost:3000/graphql`

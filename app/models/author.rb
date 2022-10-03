@@ -10,12 +10,10 @@
 class Author < ApplicationRecord
   # Validations
   validates :name, length: { minimum: 2 }
-  # TODO  -> created_at --> joined_on
-  #       -> favorite recipe (recipe_id)
 
   # Associations
-  has_many :recipes
-  has_many :reviews
+  has_many :recipes, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
   # Query Scope
   scope :search_all_authors, -> (token) { where("name ilike ?", "%#{token}%") }

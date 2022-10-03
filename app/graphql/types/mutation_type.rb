@@ -2,6 +2,7 @@ module Types
   class MutationType < Types::BaseObject
     field :create_author, mutation: Mutations::Authors::Create
     field :update_author, mutation: Mutations::Authors::Update
+    field :delete_author, mutation: Mutations::Authors::Delete
 
     field :create_recipe, mutation: Mutations::Recipes::Create
     field :update_recipe, mutation: Mutations::Recipes::Update

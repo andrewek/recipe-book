@@ -3,9 +3,11 @@ require "rails_helper"
 RSpec.describe Mutations::Authors::Create do
   let(:query_string) do
     <<~QUERY
-      mutation($name: String!) { createAuthor(input: { params: {name: $name}}) {
-        author { name id }
-      }}
+      mutation($name: String!) { 
+        createAuthor(input: { params: {name: $name}}) {
+          author { name id }
+        }
+      }
     QUERY
   end
 
