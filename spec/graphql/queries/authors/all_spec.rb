@@ -16,6 +16,7 @@ RSpec.describe Resolvers::Authors::All do
 
     authors_json = result.to_h.dig("data", "authors")
     expect(authors_json.length).to eq(authors.length)
+    
     authors.each do |author|
       expect(authors_json.find do |el| 
         el["id"].to_i == author.id

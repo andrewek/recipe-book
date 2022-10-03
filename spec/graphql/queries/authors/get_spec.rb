@@ -1,13 +1,15 @@
 require "rails_helper"
 
 RSpec.describe Resolvers::Authors::Get do
-  it "gets an author" do
-    query_string = <<~QUERY
+  let(:query_string) do
+    <<~QUERY
       query($id: ID!) { author(id: $id) {
         name id
       }}
     QUERY
+  end
 
+  it "gets an author" do
     author = create(:author)
 
     result = RecipeBookSchema.execute(
@@ -23,12 +25,6 @@ RSpec.describe Resolvers::Authors::Get do
   end
 
   it "raises when not found" do
-    query_string = <<~QUERY
-      query($id: ID!) { author(id: $id) {
-        name id
-      }}
-    QUERY
-
     expect { RecipeBookSchema.execute(
       query_string,
       variables: {id: 0},

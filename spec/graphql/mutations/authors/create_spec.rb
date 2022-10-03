@@ -1,20 +1,21 @@
 require "rails_helper"
 
 RSpec.describe Mutations::Authors::Create do
-  it "creates with good data" do
-    query_string = <<~QUERY
+  let(:query_string) do
+    <<~QUERY
       mutation($name: String!) { createAuthor(input: { params: {name: $name}}) {
         author { name id }
       }}
     QUERY
+  end
 
-    result = RecipeBookSchema.execute(
+  it "creates with good data" do
+    result = exec_graphql(
       query_string, 
-      variables: {name: "Guy Fieri"}, 
-      context: {}
+      variables: {name: "Guy Fieri"}
     )
 
-    id = result.to_h.dig("data", "createAuthor", "author", "id")
+    id = result.dig(:data, :createAuthor, :author, :id)
 
     author = Author.find(id)
 
@@ -22,22 +23,15 @@ RSpec.describe Mutations::Authors::Create do
   end
 
   it "fails with bad data" do
-    query_string = <<~QUERY
-      mutation($name: String!) { createAuthor(input: { params: {name: $name}}) {
-        author { name id }
-      }}
-    QUERY
-
-    result = RecipeBookSchema.execute(
+    result = exec_graphql(
       query_string, 
       variables: {name: "G"}, 
-      context: {}
     )
 
-    id = result.to_h.dig("data", "createAuthor", "author", "id")
+    id = result.dig(:data, :createAuthor, :author, :id)
     expect(id).to be_nil
 
-    error_string = result.to_h["errors"].first["message"]
+    error_string = result[:errors].first[:message]
 
     expect(error_string).to include("Name is too short (minimum is 2 characters)")
   end
