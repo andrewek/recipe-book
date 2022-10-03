@@ -8,7 +8,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :joined_at, String
     
-    field :recipes, [RecipeType]
+    field :recipes, [Types::Recipes::RecipeType]
     field :reviews, [ReviewType]
 
     def joined_at

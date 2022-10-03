@@ -1,5 +1,5 @@
 class Resolvers::Recipes::Get < Resolvers::BaseResolver
-  type Types::RecipeType, null: false
+  type Types::Recipes::RecipeType, null: false
   description "Get one recipe by ID"
   
   argument :id, ID

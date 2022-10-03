@@ -3,6 +3,7 @@ module Types
     field :create_author, mutation: Mutations::Authors::Create
 
     field :create_recipe, mutation: Mutations::Recipes::Create
+    field :update_recipe, mutation: Mutations::Recipes::Update
     
     field :create_review, mutation: Mutations::Reviews::Create
   end
