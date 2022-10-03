@@ -8,7 +8,7 @@ class Types::Authors::AuthorType < Types::BaseObject
   field :joined_at, String
   
   field :recipes, [Types::Recipes::RecipeType]
-  field :reviews, [Types::ReviewType]
+  field :reviews, [Types::Reviews::ReviewType]
 
   def joined_at
     object.created_at

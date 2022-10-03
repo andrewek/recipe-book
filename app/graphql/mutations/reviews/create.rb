@@ -1,7 +1,7 @@
 class Mutations::Reviews::Create < Mutations::BaseMutation
-  argument :params, Types::ReviewInputType, required: true
+  argument :params, Types::Reviews::ReviewInputType, required: true
 
-  field :review, Types::ReviewType
+  field :review, Types::Reviews::ReviewType
 
   def resolve(params:)
     params = params.to_h

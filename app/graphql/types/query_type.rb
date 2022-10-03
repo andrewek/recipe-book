@@ -9,5 +9,8 @@ module Types
     
     field :author, resolver: Resolvers::Authors::Get
     field :authors, resolver: Resolvers::Authors::All
+
+    field :review, resolver: Resolvers::Reviews::Get
+    field :reviews, resolver: Resolvers::Reviews::All
   end
 end

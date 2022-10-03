@@ -15,7 +15,7 @@ module Types
 
       field :author, Types::Authors::AuthorType
       field :category, CategoryType
-      field :reviews, [ReviewType]
+      field :reviews, [Types::Reviews::ReviewType]
     end
   end
 end
