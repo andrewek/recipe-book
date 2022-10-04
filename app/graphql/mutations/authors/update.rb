@@ -9,7 +9,7 @@
     author = Author.find(id)
 
     if author.update(author_params)
-      {author: author}
+      { author: author }
     else
       GraphQL::ExecutionError.new(
         "Invalid attributes for Author: #{author.errors.full_messages.join(', ')}"
