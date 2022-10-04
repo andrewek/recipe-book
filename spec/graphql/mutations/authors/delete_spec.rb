@@ -16,7 +16,8 @@ RSpec.describe Mutations::Authors::Delete do
   it "deletes an existing author" do
     result = exec_graphql(
       query_string,
-      variables: {id: author.id}
+      variables: {id: author.id},
+      context: {current_author: author}
     )
 
     expect(result.dig(:data, :deleteAuthor, :success)).to be true
@@ -28,7 +29,8 @@ RSpec.describe Mutations::Authors::Delete do
 
     result = exec_graphql(
       query_string,
-      variables: {id: author.id}
+      variables: {id: author.id},
+      context: {current_author: author}
     )
 
     expect(result.dig(:data, :deleteAuthor, :success)).to be true
@@ -41,7 +43,8 @@ RSpec.describe Mutations::Authors::Delete do
 
     result = exec_graphql(
       query_string,
-      variables: {id: author.id}
+      variables: {id: author.id},
+      context: {current_author: author}
     )
     
     expect(result.dig(:data, :deleteAuthor, :success)).to be true
@@ -52,10 +55,28 @@ RSpec.describe Mutations::Authors::Delete do
   it "returns an error? if the author doesn't exist" do
     result = exec_graphql(
       query_string,
-      variables: {id: 0}
+      variables: {id: 0},
+      context: {current_author: author}
     )
 
     expect(result.dig(:data, :deleteAuthor, :success)).to be false
-    expect(result.dig(:data, :deleteAuthor, :message)).to eq("That author doesn't exist")
+    expect(result.dig(:data, :deleteAuthor, :message)).to eq(
+      "That author doesn't exist or you're not allowed to do that"
+    )
+  end
+
+  it "returns an error if the author mismatches" do
+    second_author = create(:author)
+    
+    result = exec_graphql(
+      query_string,
+      variables: {id: second_author.id},
+      context: {current_author: author}
+    )
+
+    expect(result.dig(:data, :deleteAuthor, :success)).to be false
+    expect(result.dig(:data, :deleteAuthor, :message)).to eq(
+      "That author doesn't exist or you're not allowed to do that"
+    )
   end
 end
