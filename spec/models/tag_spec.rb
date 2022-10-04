@@ -46,9 +46,9 @@ RSpec.describe Tag, type: :model do
 
   describe "#name_is_like" do
     it "finds tags by name" do
-      t_1 = Tag.create!(name: "easy to make")
-      t_2 = Tag.create!(name: "southern style cooking")
-      t_3 = Tag.create!(name: "hard to make")
+      t_1 = create(:tag, name: "easy to make")
+      t_2 = create(:tag, name: "southern style cooking")
+      t_3 = create(:tag, name: "hard to make")
 
       result = Tag.name_is_like("make")
 
