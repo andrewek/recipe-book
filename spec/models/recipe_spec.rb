@@ -16,10 +16,8 @@
 #  index_recipes_on_category_id  (category_id)
 #
 require 'rails_helper'
-RSpec.describe Recipe, type: :model do
-  let(:author){Author.create!(name: "Taylor Swift")}
-  let(:category) { Category.create!(name: "Some food") }
 
+RSpec.describe Recipe, type: :model do
   describe "#valid?" do
     it "checks presence of name" do
       r = Recipe.new(name: nil)
@@ -74,9 +72,9 @@ RSpec.describe Recipe, type: :model do
 
   describe "#short_to_make" do
     it "returns recipes with 30 minutes or more duration_in_minutes" do
-      r_1 = Recipe.create!(name: "asdfasdf", author: author, duration_in_minutes: 29, category: category)
-      r_2 = Recipe.create!(name: "asdfasdf", author: author, duration_in_minutes: 30, category: category)
-      r_3 = Recipe.create!(name: "asdfasdf", author: author, duration_in_minutes: 31, category: category)
+      r_1 = create(:recipe, duration_in_minutes: 29)
+      r_2 = create(:recipe, duration_in_minutes: 30)
+      r_3 = create(:recipe, duration_in_minutes: 31)
 
       result = Recipe.short_to_make
 
@@ -88,9 +86,9 @@ RSpec.describe Recipe, type: :model do
 
   describe "#long_to_make" do
     it "returns recipes with 30 minutes or less duration_in_minutes" do
-      r_1 = Recipe.create!(name: "asdfasdf", author: author, duration_in_minutes: 29, category: category)
-      r_2 = Recipe.create!(name: "asdfasdf", author: author, duration_in_minutes: 30, category: category)
-      r_3 = Recipe.create!(name: "asdfasdf", author: author, duration_in_minutes: 31, category: category)
+      r_1 = create(:recipe, duration_in_minutes: 29)
+      r_2 = create(:recipe, duration_in_minutes: 30)
+      r_3 = create(:recipe, duration_in_minutes: 31)
 
       result = Recipe.long_to_make
 
@@ -102,9 +100,9 @@ RSpec.describe Recipe, type: :model do
 
   describe "#name_is_like" do
     it "finds things" do
-      r_1 = Recipe.create!(name: "fruit salad", author: author, duration_in_minutes: 29, category: category)
-      r_2 = Recipe.create!(name: "SaLaD dressing", author: author, duration_in_minutes: 30, category: category)
-      r_3 = Recipe.create!(name: "aaaaaaargh", author: author, duration_in_minutes: 31, category: category)
+      r_1 = create(:recipe, name: "fruit salad")
+      r_2 = create(:recipe, name: "SaLaD dressing")
+      r_3 = create(:recipe, name: "aaaaaaaargh")
 
       result = Recipe.name_is_like("salad")
 
@@ -116,9 +114,9 @@ RSpec.describe Recipe, type: :model do
 
   describe "#oldest" do
     it "finds the oldest recipe" do
-      r_1 = Recipe.create!(name: "Chicken Sandwich", author: author, duration_in_minutes: 20, category: category)
-      r_2 = Recipe.create!(name: "Spaghetti", author: author, duration_in_minutes: 45, category: category, created_at: 1.month.ago)
-      r_3 = Recipe.create!(name: "Pot Roast", author: author, duration_in_minutes: 100, category: category, created_at: 2.days.ago)
+      r_1 = create(:recipe)
+      r_2 = create(:recipe, created_at: 1.month.ago)
+      r_3 = create(:recipe, created_at: 2.days.ago)
 
       result = Recipe.oldest
 
@@ -128,9 +126,9 @@ RSpec.describe Recipe, type: :model do
 
   describe "#newest" do
     it "finds the newest recipe" do
-      r_1 = Recipe.create!(name: "Chicken Sandwich", author: author, duration_in_minutes: 20, category: category)
-      r_2 = Recipe.create!(name: "Spaghetti", author: author, duration_in_minutes: 45, category: category, created_at: 1.month.ago)
-      r_3 = Recipe.create!(name: "Pot Roast", author: author, duration_in_minutes: 100, category: category, created_at: 2.days.ago)
+      r_1 = create(:recipe)
+      r_2 = create(:recipe, created_at: 1.month.ago)
+      r_3 = create(:recipe, created_at: 2.days.ago)
 
       result = Recipe.newest
 

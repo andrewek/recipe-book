@@ -16,73 +16,84 @@
 #  index_reviews_on_recipe_id  (recipe_id)
 #
 require "rails_helper"
-RSpec.describe Review, type: :model do
-  let(:author) { Author.create!(name: "Taylor Swift") }
-  let(:category) { Category.create!(name: "Some food") }
-  let(:recipe) do 
-    Recipe.create!(
-      name: "Porridge (too hot)", 
-      author: author, 
-      duration_in_minutes: 93,
-      category: category
-    )
-  end
 
+RSpec.describe Review, type: :model do
   describe "#valid?" do
-    let(:review) do
-      Review.new(
-        author: author, 
-        recipe: recipe, 
-        rating: 3, 
-        body: "Too cold actually"
-      )
-    end
 
     it "requires author association" do
-      review.author = nil
+      # review.author = nil
+      review = build(:review, author: nil)
 
       expect(review).not_to be_valid
       expect(review.errors[:author]).to include("must exist")
     end
 
     it "requires recipe association" do
-      review.recipe = nil
+      review = build(:review, recipe: nil)
       
       expect(review).not_to be_valid
       expect(review.errors[:recipe]).to include("must exist")
     end
 
     it "requires numeric rating" do
-      review.rating = "heyyyyyy"
+      review = build(:review, rating: "heyyyyyy")
 
       expect(review).not_to be_valid
       expect(review.errors[:rating]).to include("is not a number")
     end
 
     it "requires presence of rating" do
-      review.rating = nil
+      review = build(:review, rating: nil)
 
       expect(review).not_to be_valid
       expect(review.errors[:rating]).to include("is not a number")
     end
 
     it "disallows rating less than 0" do
-      review.rating = -1
+      review = build(:review, rating: -1)
 
       expect(review).not_to be_valid
       expect(review.errors[:rating]).to include("must be greater than or equal to 0")
     end
 
     it "disallows rating greater than 5" do
-      review.rating = 6
-      
+      review = build(:review, rating: 6)
+
       expect(review).not_to be_valid
       expect(review.errors[:rating]).to include("must be less than or equal to 5")
     end
 
     it "allows null body" do
-      review.body = nil
+      review = build(:review, body: nil)
       expect(review).to be_valid
+    end
+  end
+  
+  describe ".rating_is_at_most" do
+    it "returns the correct results" do
+      r_1 = create(:review, rating: 1)
+      r_2 = create(:review, rating: 3)
+      r_3 = create(:review, rating: 5)
+  
+      result = Review.rating_is_at_most(3)
+  
+      expect(result).to include(r_1)
+      expect(result).to include(r_2)
+      expect(result).not_to include(r_3)
+    end
+  end
+
+  describe ".rating_is_at_least" do
+    it "returns the correct results" do
+      r_1 = create(:review, rating: 1)
+      r_2 = create(:review, rating: 3)
+      r_3 = create(:review, rating: 5)
+
+      result = Review.rating_is_at_least(3)
+
+      expect(result).not_to include(r_1)
+      expect(result).to include(r_2)
+      expect(result).to include(r_3)
     end
   end
 end
