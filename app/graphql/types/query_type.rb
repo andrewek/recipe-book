@@ -12,5 +12,8 @@ module Types
 
     field :review, resolver: Resolvers::Reviews::Get
     field :reviews, resolver: Resolvers::Reviews::All
+
+    field :kitchen, resolver: Resolvers::Kitchens::Get
+    field :kitchens, resolver: Resolvers::Kitchens::All
   end
 end

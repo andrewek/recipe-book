@@ -43,3 +43,22 @@ okay = Review.create!(
   author: julia,
   recipe: spag
 )
+
+hell = Kitchen.create!(
+  name: "Hell's Kitchen",
+  location: "Las Vegas",
+  value: 1_000_000,
+  author: julia
+ )
+cut = Kitchen.create!(
+  name: "Cutthroat Kitchen",
+  location: "Santa Clarita",
+  value: 500_000,
+  author: angela
+ )
+guy = Kitchen.create!(
+  name: "Flavortown",
+  location: "United States of Flavor",
+  value: 5_000_000,
+  author: angela
+ )

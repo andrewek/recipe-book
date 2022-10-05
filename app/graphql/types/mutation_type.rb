@@ -9,5 +9,9 @@ module Types
     
     field :create_review, mutation: Mutations::Reviews::Create
     field :update_review, mutation: Mutations::Reviews::Update
+
+    field :create_kitchen, mutation: Mutations::Kitchens::Create
+    field :update_kitchen, mutation: Mutations::Kitchens::Update
+    field :delete_kitchen, mutation: Mutations::Kitchens::Delete
   end
 end
