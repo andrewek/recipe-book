@@ -70,3 +70,15 @@ query { recipes(nameLike: "salad", durationUnder: 90, durationOver: 15) {
   category {name id}
 }}
 ```
+
+To delete authors (and do other stateful things), go to the "auth" tab in
+Insomnia or whatever other HTTP client you're using and select "Basic" auth.
+
+Then provide `author-3` (or whatever ID) for the username, and "password" for
+the password.
+
+This should correctly trigger the `current_author` `before_action` on graphql
+endpoints.
+
+Then in the graphql mutations and resolvers, we can access
+`context[:current_author]` and have our Author object.

@@ -1,4 +1,6 @@
 class RecipesController < ApplicationController
+  skip_before_action :current_author
+  
   # GET /recipes
   def index
     recipes = RecipesSearch.new(params.to_unsafe_h).call

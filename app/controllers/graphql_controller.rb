@@ -9,10 +9,14 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      current_author: current_author
     }
-    result = RecipeBookSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = RecipeBookSchema.execute(
+      query, 
+      variables: variables, 
+      context: context, 
+      operation_name: operation_name
+    )
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
@@ -45,6 +49,11 @@ class GraphqlController < ApplicationController
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+    render json: { 
+      errors: [
+        { message: e.message, backtrace: e.backtrace }
+      ], 
+      data: {} 
+    }, status: 500
   end
 end

@@ -12,16 +12,18 @@ RSpec.describe Mutations::Authors::Create do
   end
 
   it "creates with good data" do
+    attrs = attributes_for(:author)
+    
     result = exec_graphql(
       query_string, 
-      variables: {name: "Guy Fieri"}
+      variables: attrs
     )
 
     id = result.dig(:data, :createAuthor, :author, :id)
 
     author = Author.find(id)
 
-    expect(author.name).to eq("Guy Fieri")
+    expect(author.name).to eq(attrs[:name])
   end
 
   it "fails with bad data" do

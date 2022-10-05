@@ -1,5 +1,6 @@
 class AuthorsController < ApplicationController
   before_action :find_author, only: [:show, :update, :destroy]
+  skip_before_action :current_author
 
   def index
     @authors = AuthorsSearch.new(params.to_unsafe_h).call

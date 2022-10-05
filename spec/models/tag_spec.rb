@@ -10,37 +10,19 @@
 require 'rails_helper'
 
 RSpec.describe Tag, type: :model do
-  let(:author) { Author.create!(name: "Gordon Ramsay") }
-  let(:category) { Category.create!(name: "Fancy Food") }
-  let(:recipe) do
-    Recipe.create!(
-      name: "Filet Mignon",
-      author: author,
-      duration_in_minutes: 120,
-      category: category
-    )
-  end
-  let(:tag) { Tag.new(name: "comfort food") }
-
   describe "#valid?" do
     it "validates presence of name" do
-      tag.name = nil
+      tag = build(:tag, name: nil)
 
       expect(tag).not_to be_valid
       expect(tag.errors[:name]).to include("is too short (minimum is 2 characters)")
     end
 
     it "validates length of name" do
-      tag.name = "a"
+      tag = build(:tag, name: "a")
 
       expect(tag).not_to be_valid
       expect(tag.errors[:name]).to include("is too short (minimum is 2 characters)")
-    end
-
-    it "allows lacking recipe association" do
-      tag.recipes = []
-      
-      expect(tag).to be_valid
     end
   end
 
