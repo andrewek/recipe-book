@@ -12,9 +12,9 @@ class GraphqlController < ApplicationController
       current_author: current_author
     }
     result = RecipeBookSchema.execute(
-      query, 
-      variables: variables, 
-      context: context, 
+      query,
+      variables: variables,
+      context: context,
       operation_name: operation_name
     )
     render json: result
@@ -49,11 +49,11 @@ class GraphqlController < ApplicationController
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { 
+    render json: {
       errors: [
         { message: e.message, backtrace: e.backtrace }
-      ], 
-      data: {} 
+      ],
+      data: {}
     }, status: 500
   end
 end

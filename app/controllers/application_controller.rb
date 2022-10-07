@@ -7,7 +7,9 @@ class ApplicationController < ActionController::Base
   end
 
   def current_author
-    @current_author ||= assign_current_author()
+#    @current_author ||= assign_current_author()
+    # FIXME: This needs to be addressed for real later
+    @current_author = Author.first
   end
 
   def deleted(record)
@@ -24,7 +26,7 @@ class ApplicationController < ActionController::Base
     begin
       b64_string = request.headers["HTTP_AUTHORIZATION"].sub("Basic ", "")
       user_string, password = Base64.decode64(b64_string).split(":")
-  
+
       id = user_string.sub("author-", "").strip
 
       Author.find(id)
