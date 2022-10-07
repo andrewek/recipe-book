@@ -29,8 +29,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_194735) do
   create_table "kitchens", force: :cascade do |t|
     t.bigint "author_id"
     t.string "name", null: false
-    t.string "location"
-    t.integer "value"
+    t.string "location", default: ""
+    t.integer "value", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_kitchens_on_author_id"

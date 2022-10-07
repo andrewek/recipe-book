@@ -3,9 +3,9 @@
 # Table name: kitchens
 #
 #  id         :bigint           not null, primary key
-#  location   :string
+#  location   :string           default("")
 #  name       :string           not null
-#  value      :integer
+#  value      :integer          default(0)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  author_id  :bigint
